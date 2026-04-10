@@ -1,0 +1,107 @@
+/* ===== DARK THEME (Default) ===== */
+:root,
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --surface: #334155;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --primary: #3b82f6;
+  --accent: #22d3ee;
+  --border: rgba(255, 255, 255, 0.08);
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* ===== LIGHT THEME ===== */
+[data-theme="light"] {
+  --bg: #ffffff;
+  --card: #f1f5f9;
+  --surface: #e2e8f0;
+  --text: #0f172a;
+  --muted: #475569;
+  --primary: #3b82f6;
+  --accent: #0891b2;
+  --border: rgba(0, 0, 0, 0.12);
+  --success: #059669;
+  --danger: #dc2626;
+  --warning: #d97706;
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  background-color: var(--bg);
+}
+
+body {
+  margin: 0;
+  font-family: Inter, 'Segoe UI', Roboto, system-ui, -apple-system, 'Helvetica Neue', Arial;
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-container {
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 0 16px
+}
+
+/* Card */
+
+/* Forms */
+.form-group {
+  margin-bottom: 12px
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+  font-size: 14px
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e6edf6;
+  border-radius: 8px;
+  background: white
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed
+}
+
+/* Utility */
+.muted {
+  color: var(--muted)
+}
