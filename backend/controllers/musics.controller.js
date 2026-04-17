@@ -77,8 +77,8 @@ async function createAlbum(req, res) {
     const album = await albumModel.create({
       title,
       desc,
-      musics: musicIds
-      , user: req.user
+      musics: musicIds,
+      user: req.user.id
     });
 
     res.status(201).json({
@@ -134,7 +134,7 @@ async function myMusics(req, res) {
 async function myAlbums(req, res) {
 
   const albums = await albumModel.find({
-    user: req.user
+    user: req.user.id
   }).populate("musics", "song")
 
   res.status(200).json({

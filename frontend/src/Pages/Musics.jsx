@@ -50,7 +50,7 @@ function Musics() {
 
 
   const handleLikeCount = async (id) => {
-    const res = await axios.post(`${API_BASE_URL}/api/music/like/${id}`, {}, { withCredentials: true });
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/music/like/${id}`, {}, { withCredentials: true });
     fetchMusics();
 
   };
@@ -70,7 +70,7 @@ function Musics() {
     }
 
     try {
-      await axios.post(`${API_BASE_URL}/api/music/createalbum`, { title, desc, musicIds: selectedIds }, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/music/createalbum`, { title, desc, musicIds: selectedIds }, { withCredentials: true });
 
       setIsError(false);
       setMessage("Album created successfully");
