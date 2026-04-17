@@ -8,48 +8,55 @@ const imageKit = require("../services/imagekit.service.js");
 
 
 async function uploadMusic(req, res) {
+  try {
+    const { title, desc } = req.body;
 
-  const { title, desc } = req.body;
+    // Check if user is authenticated
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        msg: "Authentication required"
+      });
+    }
 
-  // Check if user is authenticated
-  if (!req.user || !req.user.id) {
-    return res.status(401).json({
-      msg: "Authentication required"
-    });
+    const uploadResponse = await imageKit.upload({
+      file: req.file.buffer,
+      fileName: req.file.originalname,
+      folder: "/artistMusics"
+    })
+
+    //req.user.id is the id of the user who is logged in and creating the music
+    const createMusic = await musicModel.create({
+      title: title,
+      desc: desc,
+      song: uploadResponse.url,
+      artist: req.user.id
+    })
+
+    res.json({
+      msg: "successUpload!",
+      music: createMusic
+    })
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error", error: error.message })
   }
-
-  const uploadResponse = await imageKit.upload({
-    file: req.file.buffer,
-    fileName: req.file.originalname,
-    folder: "/artistMusics"
-  })
-
-  //req.user.id is the id of the user who is logged in and creating the music
-  const createMusic = await musicModel.create({
-    title: title,
-    desc: desc,
-    song: uploadResponse.url,
-    artist: req.user.id
-  })
-
-  res.json({
-    msg: "successUpload!",
-    music: createMusic
-  })
-
 }
 
 async function allMusics(req, res) {
+  try {
+    const musics = await musicModel
+      .find()
+      .populate("artist", "username profilePic")
 
-  const musics = await musicModel
-    .find()
-    .populate("artist", "username profilePic")
-
-  res.status(200).json({
-    user : req.userId,
-    message: "Musics fetched successfully",
-    musics: musics,
-  })
+    res.status(200).json({
+      user : req.user.id,
+      message: "Musics fetched successfully",
+      musics: musics,
+    })
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error", error: error.message })
+  }
 }
 
 async function createAlbum(req, res) {

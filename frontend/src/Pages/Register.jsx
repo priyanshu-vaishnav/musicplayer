@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import '../assets/Register.css'
-import { API_BASE_URL } from '../config'
 
 export default function Register() {
 
@@ -42,7 +41,7 @@ export default function Register() {
     }
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, data, { headers: { "Content-Type": "multipart/form-data" } })
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/register`, data, { headers: { "Content-Type": "multipart/form-data" } })
 
       setIsError(false)
       setMessage("Registration successful")

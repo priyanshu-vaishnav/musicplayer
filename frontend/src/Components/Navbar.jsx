@@ -4,7 +4,6 @@ import axios from "axios";
 import "../assets/Navbar.css";
 import menu from "../assets/menu.png";
 import { useTheme } from "../hooks/useTheme";
-import { API_BASE_URL } from '../config';
 
 const Navbar = ({ isArtist, isLoggedIn, setIsLoggedIn, setIsArtist }) => {
 
@@ -14,7 +13,7 @@ const Navbar = ({ isArtist, isLoggedIn, setIsLoggedIn, setIsArtist }) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${API_BASE_URL}/api/auth/logout`, {}, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/logout`, {}, { withCredentials: true });
 
       localStorage.removeItem("role");
       localStorage.removeItem("isLoggedIn");

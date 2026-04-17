@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../assets/uploadMusic.css'
-import { API_BASE_URL } from '../config'
 
 
 export default function UploadMusic({isArtist}) {
@@ -22,7 +21,7 @@ export default function UploadMusic({isArtist}) {
 
         try {
           setLoading(true)
-          await axios.post(`${API_BASE_URL}/api/music/upload`, formData, { withCredentials: true })
+          await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/music/upload`, formData, { withCredentials: true })
           setMsg('Upload successful')
         } catch (error) {
           setMsg(error.response?.data?.message || 'Upload failed')

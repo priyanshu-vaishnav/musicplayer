@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../assets/MyAlbums.css'
-import { API_BASE_URL } from '../config'
 
 function MyAlbums() {
 
@@ -16,7 +15,7 @@ function MyAlbums() {
 
   const fetchAlbums = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/music/myalbums`, { withCredentials: true })
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/music/myalbums`, { withCredentials: true })
 
       setAlbums(res.data?.albums || [])
     } catch (error) {
@@ -29,7 +28,7 @@ function MyAlbums() {
 
   const deleteAlbum = async (id) => {
     try {
-      await axios.delete(`${API_BASE_URL}/api/music/deletealbum/${id}`, { withCredentials: true })
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/music/deletealbum/${id}`, { withCredentials: true })
 
       setAlbums(prev => prev.filter(album => album._id !== id))
       setIsError(false)

@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import '../assets/Login.css'
-import { API_BASE_URL } from '../config'
 
 export default function Login({ setIsLoggedIn, setIsArtist }) {
 
   const navigate = useNavigate()
 
-  const [email, setUsername] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
   const [isError, setIsError] = useState(false)
@@ -23,7 +22,7 @@ export default function Login({ setIsLoggedIn, setIsArtist }) {
     }
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, { email, password }, { withCredentials: true })
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, { email, password }, { withCredentials: true })
 
       if (res.data?.user) {
         localStorage.setItem("isLoggedIn", "true")
@@ -66,7 +65,7 @@ export default function Login({ setIsLoggedIn, setIsArtist }) {
             <input
               type="email"
               value={email}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
             />
           </div>

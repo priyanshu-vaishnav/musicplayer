@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../assets/MyMusics.css";
-import { API_BASE_URL } from '../config';
 
 function MyMusics() {
 
@@ -16,7 +15,7 @@ function MyMusics() {
 
   const fetchMyMusics = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/music/mymusics`, { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/music/mymusics`, { withCredentials: true });
 
       setMusics(res.data?.musics || []);
       setIsError(false);

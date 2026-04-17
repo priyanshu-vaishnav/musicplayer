@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../assets/Dashboard.css";
-import { API_BASE_URL } from '../config';
 
 function Dashboard() {
   const [totalMusics, setTotalMusics] = useState(0);
@@ -17,7 +16,7 @@ function Dashboard() {
 
   const fetchDashboardData = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/music/allmusics`, { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/music/allmusics`, { withCredentials: true });
 
       const musics = res.data?.musics || [];
       setTotalMusics(musics.length);

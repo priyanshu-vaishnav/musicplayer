@@ -1,6 +1,26 @@
 const jwt = require("jsonwebtoken")
 
 
+async function authUser(req, res, next) {
+    try {
+        const token = req.cookies.token
+        if (!token) {
+            return res.status(401).json({
+                msg: "No token provided"
+            })
+        }
+
+        const decoded = jwt.verify(token, process.env.JWSKEY);
+
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(401).json({
+            msg: "Invalid token: " + error.message
+        })
+    }
+}
+
 async function authArtist(req, res, next) {
     try {
         const token = req.cookies.token
@@ -26,6 +46,8 @@ async function authArtist(req, res, next) {
         })
     }
 }
+
+module.exports = { authUser, authArtist }
 
 
 

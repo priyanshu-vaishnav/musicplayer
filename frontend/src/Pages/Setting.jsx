@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../assets/Setting.css";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from '../config';
 
 function Setting({ isArtist, setIsArtist }) {
 
@@ -12,7 +11,7 @@ function Setting({ isArtist, setIsArtist }) {
 
   const handleRoleChange = async () => {
     try {
-      const res = await axios.patch(`${API_BASE_URL}/api/auth/change-role`, {}, { withCredentials: true });
+      const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/change-role`, {}, { withCredentials: true });
 
       if (res.data.success) {
         localStorage.setItem("role", "artist");
@@ -29,7 +28,7 @@ function Setting({ isArtist, setIsArtist }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/auth/mydetails`, { withCredentials: true });
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/auth/mydetails`, { withCredentials: true });
         setUserDetails(res.data);
       } catch (error) {
       } finally {
