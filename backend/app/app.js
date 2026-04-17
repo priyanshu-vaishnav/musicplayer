@@ -7,7 +7,7 @@ const app = express();
 app.use(cookieparser())
 app.use(express.json());
 app.use(cors({
-  origin: "https://musicplayer-9n08.onrender.com",
+  origin: "https://musicplayer-chi-woad.vercel.app/",
   credentials: true
 }))
 
