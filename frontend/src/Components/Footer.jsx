@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../assets/Footer.css";
 
 const Footer = () => {
@@ -18,13 +19,13 @@ const Footer = () => {
             <h4>Quick Links</h4>
             <ul>
               <li>
-                <a href="/musics">Browse Musics</a>
+                <Link to="/musics">Browse Musics</Link>
               </li>
               <li>
-                <a href="/login">Login</a>
+                <Link to="/login">Login</Link>
               </li>
               <li>
-                <a href="/register">Register</a>
+                <Link to="/register">Register</Link>
               </li>
             </ul>
           </div>
@@ -33,13 +34,13 @@ const Footer = () => {
             <h4>For Artists</h4>
             <ul>
               <li>
-                <a href="/upload">Upload Music</a>
+                <Link to="/upload">Upload Music</Link>
               </li>
               <li>
-                <a href="/mymusics">My Musics</a>
+                <Link to="/mymusics">My Musics</Link>
               </li>
               <li>
-                <a href="/myalbums">My Albums</a>
+                <Link to="/myalbums">My Albums</Link>
               </li>
             </ul>
           </div>

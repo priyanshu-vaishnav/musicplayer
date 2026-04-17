@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "../assets/Dashboard.css";
 
@@ -43,12 +44,12 @@ function Dashboard() {
         <p>Your music streaming platform</p>
         {!isLoggedIn && (
           <div className="buttonGroup">
-            <a href="/login" className="btn btnPrimary">
+            <Link to="/login" className="btn btnPrimary">
               Login
-            </a>
-            <a href="/register" className="btn btnSecondary">
+            </Link>
+            <Link to="/register" className="btn btnSecondary">
               Register
-            </a>
+            </Link>
           </div>
         )}
       </section>
@@ -95,20 +96,20 @@ function Dashboard() {
       <section className="navSection">
         {isLoggedIn && (
           <div className="navLinks">
-            <a href="/mymusics" className="navLink">
+            <Link to="/mymusics" className="navLink">
               My Musics
-            </a>
-            <a href="/upload" className="navLink">
+            </Link>
+            <Link to="/upload" className="navLink">
               Upload
-            </a>
-            <a href="/setting" className="navLink">
+            </Link>
+            <Link to="/setting" className="navLink">
               Settings
-            </a>
+            </Link>
           </div>
         )}
-        <a href="/musics" className="navLink primary">
+        <Link to="/musics" className="navLink primary">
           Browse All Musics
-        </a>
+        </Link>
       </section>
     </div>
   );
