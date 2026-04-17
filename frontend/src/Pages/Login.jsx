@@ -7,7 +7,7 @@ export default function Login({ setIsLoggedIn, setIsArtist }) {
 
   const navigate = useNavigate()
 
-  const [username, setUsername] = useState("")
+  const [email, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
   const [isError, setIsError] = useState(false)
@@ -15,7 +15,7 @@ export default function Login({ setIsLoggedIn, setIsArtist }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!username || !password) {
+    if (!email || !password) {
       setIsError(true)
       setMessage("All fields are required")
       return
@@ -24,7 +24,7 @@ export default function Login({ setIsLoggedIn, setIsArtist }) {
     try {
       const res = await axios.post(
         "http://localhost:4000/api/auth/login",
-        { username, password },
+        { email, password },
         { withCredentials: true }
       )
 
@@ -65,12 +65,12 @@ export default function Login({ setIsLoggedIn, setIsArtist }) {
         <form onSubmit={handleSubmit} className="login-form">
 
           <div className="form-group">
-            <label>Username</label>
+            <label>Email</label>
             <input
-              type="text"
-              value={username}
+              type="email"
+              value={email}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter your username"
+              placeholder="Enter your email"
             />
           </div>
 

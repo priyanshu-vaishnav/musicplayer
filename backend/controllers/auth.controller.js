@@ -36,15 +36,15 @@ async function register(req, res) {
 
 async function login(req, res) {
 
-    const { username, password } = req.body
+    const { email, password } = req.body
 
-    if(!username || !password){
+    if(!email || !password){
         return res.status(402).json({
-            msg:"Please enter username or password"
+            msg:"Please enter email or password"
         })
     }
 
-    const user = await userModel.findOne({ username })
+    const user = await userModel.findOne({ email })
     if (!user || user.password !== password) {
         return res.status(401).json({ message: "Invalid credentials" })
     }
