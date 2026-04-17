@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import '../assets/Login.css'
+import { API_BASE_URL } from '../config'
 
 export default function Login({ setIsLoggedIn, setIsArtist }) {
 
@@ -22,11 +23,7 @@ export default function Login({ setIsLoggedIn, setIsArtist }) {
     }
 
     try {
-      const res = await axios.post(
-        "http://localhost:4000/api/auth/login",
-        { email, password },
-        { withCredentials: true }
-      )
+      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, { email, password }, { withCredentials: true })
 
       if (res.data?.user) {
         localStorage.setItem("isLoggedIn", "true")

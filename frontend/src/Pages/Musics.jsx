@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../assets/Musics.css";
+import { API_BASE_URL } from '../config';
 
 function Musics() {
 
@@ -19,10 +20,7 @@ function Musics() {
 
   const fetchMusics = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:4000/api/music/allmusics",
-        { withCredentials: true }
-      );
+      const res = await axios.get(`${API_BASE_URL}/api/music/allmusics`, { withCredentials: true });
 
 
       setMusics(res.data?.musics || []);
@@ -53,7 +51,7 @@ function Musics() {
 
 
   const handleLikeCount = async (id) => {
-    const res = await axios.post(`http://localhost:4000/api/music/like/${id}`, {}, { withCredentials: true });
+    const res = await axios.post(`${API_BASE_URL}/api/music/like/${id}`, {}, { withCredentials: true });
     fetchMusics();
 
   };
@@ -73,11 +71,7 @@ function Musics() {
     }
 
     try {
-      await axios.post(
-        "http://localhost:4000/api/music/createalbum",
-        { title, desc, musicIds: selectedIds },
-        { withCredentials: true }
-      );
+      await axios.post(`${API_BASE_URL}/api/music/createalbum`, { title, desc, musicIds: selectedIds }, { withCredentials: true });
 
       setIsError(false);
       setMessage("Album created successfully");
