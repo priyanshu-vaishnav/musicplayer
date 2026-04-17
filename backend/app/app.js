@@ -7,7 +7,7 @@ const app = express();
 app.use(cookieparser())
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:5173",   // your frontend port
+  origin: "https://musicplayer-9n08.onrender.com",
   credentials: true
 }))
 
