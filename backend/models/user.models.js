@@ -4,7 +4,8 @@ const userSchema = new mongoose.Schema({
 
     profilePic: {
         type: String,
-        required:true,
+        required: false,
+        default: "https://via.placeholder.com/150"
     },
     username: {
         type: String,
@@ -17,7 +18,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        
+        unique: true
     },
     password: {
         type: String,

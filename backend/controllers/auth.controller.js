@@ -5,33 +5,38 @@ const imagekit = require("../services/imagekit.service.js");
 
 
 async function register(req, res) {
+    try {
+        const { username, email, password, role } = req.body
 
-    const { username, email, password, role } = req.body
+        let profilePicUrl = "https://via.placeholder.com/150"; // default
 
+        if (req.file) {
+            const uploadResponse = await imagekit.upload({
+                file: req.file.buffer,
+                fileName: req.file.originalname,
+                folder: "/images"
+            })
+            profilePicUrl = uploadResponse.url;
+        }
 
-    const uploadResponse = await imagekit.upload({
-        file: req.file.buffer,
-        fileName: req.file.originalname,
-        folder: "/images"
-    })
-
-    const user = await userModel.create({
-        profilePic: uploadResponse.url,
-        username,
-        email,
-        password,
-        role
-    })
-    const token = jwt.sign({
-        id: user._id, role: user.role
-    }, process.env.JWSKEY, { expiresIn: '24h' })
-    res.cookie("token", token)
-    res.status(200).json({
-        user: user
-    })
-
-
-
+        const user = await userModel.create({
+            profilePic: profilePicUrl,
+            username,
+            email,
+            password,
+            role
+        })
+        const token = jwt.sign({
+            id: user._id, role: user.role
+        }, process.env.JWSKEY, { expiresIn: '24h' })
+        res.cookie("token", token)
+        res.status(200).json({
+            user: user
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error", error: error.message })
+    }
 }
 
 async function login(req, res) {
