@@ -29,7 +29,14 @@ async function register(req, res) {
         const token = jwt.sign({
             id: user._id, role: user.role
         }, process.env.JWSKEY, { expiresIn: '24h' })
-        res.cookie("token", token)
+        const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'none',
+            maxAge: 24 * 60 * 60 * 1000,
+            path: '/'
+        }
+        res.cookie("token", token, cookieOptions)
         res.status(200).json({
             user: user
         })
@@ -57,7 +64,14 @@ async function login(req, res) {
     const token = jwt.sign({
         id: user._id, role: user.role
     }, process.env.JWSKEY)
-    res.cookie("token", token)
+    const cookieOptions = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none',
+        maxAge: 24 * 60 * 60 * 1000,
+        path: '/'
+    }
+    res.cookie("token", token, cookieOptions)
 
     res.status(200).json({
         user: user,
@@ -78,9 +92,16 @@ async function changeRole(req, res) {
 
         const newRole = user.role === "artist" ? "user" : "artist";
 
-       const token =  jwt.sign({ role: newRole }, process.env.JWSKEY)
+       const token =  jwt.sign({ id: user._id, role: newRole }, process.env.JWSKEY)
+       const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'none',
+            maxAge: 24 * 60 * 60 * 1000,
+            path: '/'
+        }
 
-       res.cookie("token",token)
+       res.cookie("token", token, cookieOptions)
 
         const updatedUser = await userModel.findByIdAndUpdate(
             decoded.id,
@@ -101,8 +122,14 @@ async function changeRole(req, res) {
 async function logout(req, res) {
 
     try {
+        const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'none',
+            path: '/'
+        }
 
-        res.clearCookie("token");
+        res.clearCookie("token", cookieOptions);
 
         res.status(200).json({
             msg: "Logout successful"
@@ -119,43 +146,41 @@ async function logout(req, res) {
 }
 
 async function myDetails(req, res) {
+    try {
+        const decoded = jwt.verify(req.cookies.token, process.env.JWSKEY);
 
-    const decoded = jwt.verify(req.cookies.token, process.env.JWSKEY);
+        const user = await userModel.findById(decoded.id);
 
-    const user = await userModel.findById(decoded.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
 
+        if (user.role === "user") {
+            return res.status(200).json({
+                profilePic: user.profilePic,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                id: user._id,
+            });
+        }
 
-    
-    if (user.role === "user") {
-        return res.status(200).json({
-            profilePic:user.profilePic,
+        const music = await musicModel.find({
+            artist: user._id
+        })
+
+        res.status(200).json({
+            profilePic: user.profilePic,
             username: user.username,
             email: user.email,
             role: user.role,
             id: user._id,
-
-        });
+            musics: music.length
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(401).json({ message: "Unauthorized" });
     }
-
-    const music = await musicModel.find({
-        artist: user._id
-    })
-
-
-    if (!user) {
-        return res.status(404).json({ message: "User not found" });
-    }
-
-    res.status(200).json({
-            profilePic:user.profilePic,
-        username: user.username,
-            email: user.email,
-            role: user.role,
-            id: user._id,
-            musics:music.length
-    })
-
-
 }
 
 module.exports = { register, login, changeRole, logout, myDetails }

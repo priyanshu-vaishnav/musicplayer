@@ -9,8 +9,8 @@ const upload = multer({storage: multer.memoryStorage()});
 route.post('/register',upload.single("profilePic"),authValidation.registerRules,authController.register)
 route.post('/login',authValidation.loginRules,authController.login)
 route.post('/logout',authController.logout)
-route.patch('/change-role',authController.changeRole)
-route.get('/mydetails',authController.myDetails)
+route.patch('/change-role',authMiddleware.authUser,authController.changeRole)
+route.get('/mydetails',authMiddleware.authUser,authController.myDetails)
 
 
 module.exports = route
