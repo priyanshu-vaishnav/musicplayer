@@ -31,7 +31,7 @@ const registerRules = [
 ]
 
 const loginRules = [
-    body("username").isString().withMessage("username required")
+    body("email").isString().withMessage("email required")
     , body("password").isString().withMessage("password enter please")
 ,
     validateResult
