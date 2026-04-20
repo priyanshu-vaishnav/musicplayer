@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../assets/Musics.css";
-import {love} from "../assets/love.png"
+
 
 function Musics() {
 
@@ -170,7 +170,7 @@ function Musics() {
 
 
             <img
-              src= {love}
+              src= "/love.png"
               alt=""
               width="30px"
               style={{ backgroundColor: item.likedBy?.includes(userId) ? "red" : "white", borderRadius: '20px' }}
