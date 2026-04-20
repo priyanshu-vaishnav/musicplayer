@@ -69,6 +69,33 @@
   background-position: center;
   background-repeat: no-repeat;
   filter: grayscale(100%);
+  position: relative;
+}
+
+.music-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(30, 41, 59, 0.85); /* Semi-transparent overlay for dark theme */
+  border-radius: 12px;
+  z-index: 1;
+  transition: opacity 0.2s ease;
+}
+
+[data-theme="light"] .music-card::before {
+  background-color: rgba(241, 245, 249, 0.85); /* Semi-transparent overlay for light theme */
+}
+
+.music-card:hover::before {
+  opacity: 0.7;
+}
+
+.music-card > * {
+  position: relative;
+  z-index: 2;
 }
 
 .music-card:hover {

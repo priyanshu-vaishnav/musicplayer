@@ -15,11 +15,37 @@
   max-width: 500px;
   padding: 28px;
   border-radius: 16px;
+  background-image: url("../assets/profileBg.jpg");
   background-color: var(--card);
   border: 1px solid var(--border);
   box-shadow: 0 10px 25px var(--shadow);
   margin-bottom: 30px;
   transition: all 0.3s ease;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.userBox::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(30, 41, 59, 0.8); /* Semi-transparent overlay for dark theme */
+  border-radius: 16px;
+  z-index: 1;
+}
+
+[data-theme="light"] .userBox::before {
+  background-color: rgba(241, 245, 249, 0.8); /* Semi-transparent overlay for light theme */
+}
+
+.userBox > * {
+  position: relative;
+  z-index: 2;
 }
 
 .userBox:hover {
