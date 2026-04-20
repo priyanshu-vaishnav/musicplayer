@@ -172,9 +172,9 @@ function Musics() {
               src= "../src/assets/love.png"
               alt=""
               width="30px"
-              style={{ backgroundColor: item.likedBy?.includes(userId) ? "red" : "white", borderRadius: '20px' }}
+              style={{ backgroundColor: item.likedBy?.includes(userId) ? "red" : "white", borderRadius: '20px', border: '2px solid var(--border)', cursor: 'pointer' }}
               onClick={(e) => {
-                
+                e.stopPropagation();
                 handleLikeCount(item._id);
               }}
             />
