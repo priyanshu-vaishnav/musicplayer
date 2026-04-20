@@ -13,6 +13,8 @@ function Musics() {
   const [isError, setIsError] = useState(false);
   const [userId, setUserId] = useState(null);
   const [isLoading ,setIsLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredMusics, setFilteredMusics] = useState([]);
 
 
  
@@ -23,12 +25,29 @@ function Musics() {
 
 
       setMusics(res.data?.musics || []);
+      setFilteredMusics(res.data?.musics || []);
       setUserId(res.data.user)
       setIsLoading(false)
 
     } catch (error) {
       setIsError(true);
       setMessage("Failed to load musics");
+    }
+  };
+
+  const handleSearch = async (query) => {
+    if (!query.trim()) {
+      setFilteredMusics(musics);
+      return;
+    }
+
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/music/search?query=${encodeURIComponent(query)}`, { withCredentials: true });
+      setFilteredMusics(res.data?.musics || []);
+    } catch (error) {
+      setIsError(true);
+      setMessage("Failed to search musics");
+      setFilteredMusics(musics);
     }
   };
   
@@ -59,6 +78,14 @@ function Musics() {
     fetchMusics();
   }, []);  
   console.log(userId);
+
+  useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      handleSearch(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(debounceTimer);
+  }, [searchQuery, musics]);
 
 
   const handleSubmit = async () => {
@@ -95,6 +122,15 @@ function Musics() {
 
       <div className="musics-header">
         <h2>Music Library</h2>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search music by title or description..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="search-input"
+          />
+        </div>
         <button onClick={toggleSelect} className="select-btn">
           {isSelecting ? "Cancel Selection" : "Start Selection"}
         </button>
@@ -103,7 +139,7 @@ function Musics() {
 
 
       <div className="music-grid">
-        {musics.map((item) => (
+        {filteredMusics.map((item) => (
           <div
             key={item._id}
             onClick={() => handleSelect(item._id)}

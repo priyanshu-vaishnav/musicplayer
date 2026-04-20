@@ -8,6 +8,7 @@ const route = express.Router();
 
 route.post('/upload',authTokens.authArtist,upload.single("music"),musicControllers.uploadMusic)
 route.get('/allmusics',authTokens.authUser,musicControllers.allMusics)
+route.get('/search',authTokens.authUser,musicControllers.searchMusics)
 route.post('/like/:musicId',authTokens.authUser,musicControllers.likeCount)
 route.post('/createalbum',authTokens.authUser,musicControllers.createAlbum)
 route.get('/mymusics',authTokens.authArtist,musicControllers.myMusics)

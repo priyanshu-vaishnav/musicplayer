@@ -59,6 +59,34 @@ async function allMusics(req, res) {
   }
 }
 
+async function searchMusics(req, res) {
+  try {
+    const { query } = req.query;
+    
+    if (!query || query.trim() === '') {
+      return res.status(400).json({ message: "Search query is required" });
+    }
+
+    const musics = await musicModel
+      .find({
+        $or: [
+          { title: { $regex: query, $options: 'i' } },
+          { desc: { $regex: query, $options: 'i' } }
+        ]
+      })
+      .populate("artist", "username profilePic");
+
+    res.status(200).json({
+      user: req.user.id,
+      message: "Search completed successfully",
+      musics: musics,
+    })
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error", error: error.message })
+  }
+}
+
 async function createAlbum(req, res) {
 
   const { title, desc, musicIds } = req.body;
@@ -211,4 +239,4 @@ async function likeCount(req, res) {
   }
 }
 
-module.exports = { uploadMusic, allMusics, createAlbum, myMusics, myAlbums, deleteAlbum, likeCount }
+module.exports = { uploadMusic, allMusics, searchMusics, createAlbum, myMusics, myAlbums, deleteAlbum, likeCount }
